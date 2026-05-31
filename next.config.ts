@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   serverExternalPackages: ['yt-dlp-exec', 'youtube-transcript'],
   images: {
     remotePatterns: [

@@ -14,10 +14,11 @@ WORKDIR /app
 
 # Install dependencies
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --prefer-offline
 
-# Copy source and build
+# Copy source and build with memory limit
 COPY . .
+ENV NODE_OPTIONS=--max-old-space-size=460
 RUN npm run build
 
 EXPOSE 3000
@@ -25,4 +26,4 @@ ENV NODE_ENV=production
 ENV HOSTNAME=0.0.0.0
 ENV PORT=3000
 
-CMD ["npm", "start"]
+CMD ["node", ".next/standalone/server.js"]

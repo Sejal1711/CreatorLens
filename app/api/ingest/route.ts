@@ -25,9 +25,11 @@ export async function POST(req: NextRequest) {
       extractVideoData(urlB, 'B'),
     ])
 
-    // Sequential to respect Gemini free-tier rate limits
-    await processAndStore(sessionId, dataA)
-    await processAndStore(sessionId, dataB)
+    // Process both videos in parallel
+    await Promise.all([
+      processAndStore(sessionId, dataA),
+      processAndStore(sessionId, dataB),
+    ])
 
     return NextResponse.json({
       success: true,

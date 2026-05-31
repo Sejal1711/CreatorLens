@@ -20,18 +20,18 @@ export async function embedText(text: string): Promise<number[]> {
   return result.embedding.values
 }
 
-// 5 parallel per batch, 4s between batches = 75 RPM — under 100 RPM free tier
+// 3 concurrent per batch, 2.5s gap between batches
 export async function embedBatch(texts: string[]): Promise<number[][]> {
   if (texts.length === 0) return []
   const results: number[][] = []
 
-  for (let i = 0; i < texts.length; i += 5) {
-    const batch = texts.slice(i, i + 5)
-    console.log(`[embeddings] ${i + 1}-${Math.min(i + 5, texts.length)}/${texts.length}`)
+  for (let i = 0; i < texts.length; i += 3) {
+    const batch = texts.slice(i, i + 3)
+    console.log(`[embeddings] ${i + 1}-${Math.min(i + 3, texts.length)}/${texts.length}`)
     const embeddings = await Promise.all(batch.map((t) => embedWithRetry(t)))
     results.push(...embeddings)
-    if (i + 5 < texts.length) {
-      await new Promise((r) => setTimeout(r, 4000))
+    if (i + 3 < texts.length) {
+      await new Promise((r) => setTimeout(r, 2500))
     }
   }
 

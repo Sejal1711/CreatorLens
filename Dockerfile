@@ -22,6 +22,10 @@ COPY . .
 ENV NODE_OPTIONS=--max-old-space-size=460
 RUN npm run build
 
+# Copy static assets into standalone output (required for Next.js standalone mode)
+RUN cp -r .next/static .next/standalone/.next/static && \
+    cp -r public .next/standalone/public 2>/dev/null || true
+
 EXPOSE 3000
 ENV NODE_ENV=production
 ENV HOSTNAME=0.0.0.0

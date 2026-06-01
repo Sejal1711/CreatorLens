@@ -14,7 +14,7 @@ WORKDIR /app
 
 # Install dependencies
 COPY package*.json ./
-RUN npm ci --prefer-offline
+RUN npm ci
 
 # Copy source and build with memory limit
 COPY . .

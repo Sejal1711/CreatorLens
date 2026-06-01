@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     --no-install-recommends && \
     pip3 install --break-system-packages yt-dlp && \
+    ln -s /usr/bin/python3 /usr/bin/python && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
